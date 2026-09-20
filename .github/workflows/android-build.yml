@@ -34,6 +34,25 @@ jobs:
           yes | sdkmanager --licenses > /dev/null
           sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0"
 
+      - name: Verify Supabase client configuration is present
+        shell: bash
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          supabase_url_present=false
+          supabase_key_present=false
+
+          if [[ -n "$SUPABASE_URL" ]]; then
+            supabase_url_present=true
+          fi
+          if [[ -n "$SUPABASE_PUBLISHABLE_KEY" ]]; then
+            supabase_key_present=true
+          fi
+
+          printf 'SUPABASE_URL present: %s\n' "$supabase_url_present"
+          printf 'SUPABASE_PUBLISHABLE_KEY present: %s\n' "$supabase_key_present"
+
       - name: Build debug APK
         working-directory: android
         env:
