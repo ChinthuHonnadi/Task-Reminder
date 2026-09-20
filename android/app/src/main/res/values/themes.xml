@@ -1,4 +1,4 @@
 <resources>
-    <style name="Theme.TodoList" parent="android:style/Theme.DeviceDefault.DayNight.NoActionBar" />
+    <style name="Theme.TodoList" parent="android:style/Theme.DeviceDefault.NoActionBar" />
 </resources>
 
