@@ -1,0 +1,5 @@
+# Copy this file to android/local.properties and supply the same client-safe values
+# as NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY on the website.
+# android/local.properties is ignored by Git. Never put the service-role key or Telegram token here.
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_PUBLISHABLE_KEY=your-client-safe-publishable-key
