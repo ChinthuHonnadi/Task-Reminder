@@ -2,7 +2,6 @@ package com.todolist.app.data.auth
 
 import android.content.Context
 import android.content.Intent
-import com.todolist.app.BuildConfig
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.FlowType
 import io.github.jan.supabase.auth.auth
@@ -16,10 +15,12 @@ class AuthRepository(context: Context) {
     private val storage = AndroidKeystoreSecureStorage(context.applicationContext)
 
     private val client by lazy {
-        check(AuthConfiguration.isConfigured) { "Supabase isn't configured for this app." }
+        val configuration = checkNotNull(AuthConfiguration.clientConfiguration) {
+            "Supabase isn't configured for this app."
+        }
         createSupabaseClient(
-            supabaseUrl = BuildConfig.SUPABASE_URL,
-            supabaseKey = BuildConfig.SUPABASE_PUBLISHABLE_KEY,
+            supabaseUrl = configuration.url,
+            supabaseKey = configuration.publishableKey,
         ) {
             install(Auth) {
                 scheme = AuthConfiguration.deepLinkScheme
