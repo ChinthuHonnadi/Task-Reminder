@@ -9,9 +9,14 @@ data class SupabaseClientConfiguration(
 )
 
 object AuthConfiguration {
-    const val deepLinkScheme = "com.todolist.app"
-    const val deepLinkHost = "auth"
-    const val deepLinkUrl = "$deepLinkScheme://$deepLinkHost"
+    const val magicLinkRedirectUri = "com.todolist.app://auth"
+    private val callbackUri = URI(magicLinkRedirectUri)
+
+    val deepLinkScheme: String
+        get() = callbackUri.scheme
+
+    val deepLinkHost: String
+        get() = checkNotNull(callbackUri.host)
 
     val isConfigured: Boolean
         get() = clientConfiguration != null
@@ -57,7 +62,8 @@ object AuthConfiguration {
     /** Only this exact callback is handed to the Supabase SDK for PKCE verification. */
     fun isExpectedRedirectUri(uri: String?): Boolean {
         val parsed = uri?.let { runCatching { URI(it) }.getOrNull() } ?: return false
-        return parsed.scheme.equals(deepLinkScheme, ignoreCase = true) &&
-            parsed.host.equals(deepLinkHost, ignoreCase = true)
+        return parsed.scheme.equals(callbackUri.scheme, ignoreCase = true) &&
+            parsed.host.equals(callbackUri.host, ignoreCase = true) &&
+            parsed.path.orEmpty() == callbackUri.path.orEmpty()
     }
 }

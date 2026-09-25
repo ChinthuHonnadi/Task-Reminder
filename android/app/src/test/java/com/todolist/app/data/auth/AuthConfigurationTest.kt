@@ -40,7 +40,8 @@ class AuthConfigurationTest {
 
     @Test
     fun `accepts only the Android auth callback`() {
-        assertTrue(AuthConfiguration.isExpectedRedirectUri("com.todolist.app://auth?code=pkce-code"))
+        assertEquals("com.todolist.app://auth", AuthConfiguration.magicLinkRedirectUri)
+        assertTrue(AuthConfiguration.isExpectedRedirectUri("${AuthConfiguration.magicLinkRedirectUri}?code=pkce-code"))
         assertFalse(AuthConfiguration.isExpectedRedirectUri("com.todolist.app://other?code=pkce-code"))
         assertFalse(AuthConfiguration.isExpectedRedirectUri("https://example.com/auth?code=pkce-code"))
     }

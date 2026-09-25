@@ -43,7 +43,7 @@ class AuthRepository(context: Context) {
 
     suspend fun sendMagicLink(email: String) {
         require(isConfigured) { "Supabase isn't configured for this app." }
-        client.auth.signInWith(OTP, redirectUrl = AuthConfiguration.deepLinkUrl) {
+        client.auth.signInWith(OTP, redirectUrl = AuthConfiguration.magicLinkRedirectUri) {
             this.email = email
         }
     }
